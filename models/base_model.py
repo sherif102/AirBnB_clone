@@ -6,6 +6,7 @@ Author: Sheriff Abdulfatai
 
 import uuid
 from datetime import datetime
+from . import storage
 
 
 class BaseModel:
@@ -14,6 +15,9 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """ initializes the BaseModel """
+        if args:
+            for x in args:
+                storage.new(x)
         if kwargs:
             for x, y in kwargs.items():
                 if x == "__class__":
@@ -33,12 +37,14 @@ class BaseModel:
 
     def __str__(self):
         """ prints the string representation of the class BaseModel """
-        return f'[BaseModel] ({self.id}) {self.__dict__}'
+        return f'[{self.__class__.__name__}] ({self.id}) {self.__dict__}'
 
     def save(self):
         """ update the instance attribute 'updated_at' with
         the current datetime """
         self.updated_at = datetime.now()
+        storage.new(self)
+        storage.save()
 
     def to_dict(self):
         """ it generates the dictionary of all the keys/values
