@@ -12,11 +12,24 @@ class BaseModel:
     """ the parent class that monitors every other class of
     the project and in which other classes inherited from """
 
-    def __init__(self):
-        """ initializes the BaseMOdel """
-        self.id = str(uuid.uuid4())
-        self.created_at = datetime.now()
-        self.updated_at = self.created_at
+    def __init__(self, *args, **kwargs):
+        """ initializes the BaseModel """
+        if kwargs:
+            for x, y in kwargs.items():
+                if x == "__class__":
+                    continue
+                elif x == "created_at":
+                    self.created_at = datetime.fromisoformat(y)
+                    continue
+                elif x == "updated_at":
+                    self.updated_at = datetime.fromisoformat(y)
+                    continue
+                else:
+                    setattr(self, x, y)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = self.created_at
 
     def __str__(self):
         """ prints the string representation of the class BaseModel """
