@@ -6,15 +6,16 @@ Author: Sheriff Abdulfatai
 
 import uuid
 from datetime import datetime
-from . import storage
 
 
 class BaseModel:
     """ the parent class that monitors every other class of
     the project and in which other classes inherited from """
+    
 
     def __init__(self, *args, **kwargs):
         """ initializes the BaseModel """
+        from .import storage
         if args:
             for x in args:
                 storage.new(x)
@@ -42,6 +43,7 @@ class BaseModel:
     def save(self):
         """ update the instance attribute 'updated_at' with
         the current datetime """
+        from .import storage
         self.updated_at = datetime.now()
         storage.new(self)
         storage.save()

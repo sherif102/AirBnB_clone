@@ -5,6 +5,7 @@ Author: Sheriff Abdulfatai
 """
 
 import json
+from models.base_model import BaseModel
 
 class FileStorage:
     """ serializes and deserializes JSON file """
@@ -19,14 +20,17 @@ class FileStorage:
 
     def new(self, obj):
         """ sets in '__objects' the obj with key/value """
-        obj_dict = obj.to_dict()
         class_name = obj.__class__.__name__
-        self.__objects[f"{class_name}.{obj_dict['id']}"] = obj_dict
+        self.__objects[f"{class_name}.{obj.id}"] = obj
 
     def save(self):
         """ serializes '__objects' to JSON file in path: __file_path """
         with open(self.__file_path, 'w', encoding="utf-8") as file:
-            json.dump(self.__objects, file)
+            obj_dict = {}
+            for x, y in self.__objects.items():
+                dic = y.to_dict()
+                obj_dict[x] = dic
+            json.dump(obj_dict, file)
 
     def reload(self):
         """ deserializes the JSON file to '__objects' if JSON __file_path exists
@@ -34,6 +38,10 @@ class FileStorage:
         try:
             with open(self.__file_path, 'r') as file:
                 obj = json.load(file)
-                self.__objects.update(obj)
+                obj_dict = {}
+                for x, y in obj.items():
+                    new_obj = BaseModel(**y)
+                    obj_dict[x] = new_obj
+                self.__objects.update(obj_dict)
         except FileNotFoundError:
             pass
