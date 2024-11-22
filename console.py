@@ -93,7 +93,7 @@ class HBNBCommand(cmd.Cmd):
         """ prints all string representation of all
         instances based or not on the class name
         Eg: $ all BaseModel or $ all """
-        if arg != "BaseModel":
+        if arg and arg != "BaseModel":
             print("** class doesn't exist **")
         else:
             list_obj = []
