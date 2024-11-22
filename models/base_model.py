@@ -11,7 +11,6 @@ from datetime import datetime
 class BaseModel:
     """ the parent class that monitors every other class of
     the project and in which other classes inherited from """
-    
 
     def __init__(self, *args, **kwargs):
         """ initializes the BaseModel """

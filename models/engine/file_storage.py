@@ -7,6 +7,7 @@ Author: Sheriff Abdulfatai
 import json
 from models.base_model import BaseModel
 
+
 class FileStorage:
     """ serializes and deserializes JSON file """
     def __init__(self):
@@ -33,8 +34,9 @@ class FileStorage:
             json.dump(obj_dict, file)
 
     def reload(self):
-        """ deserializes the JSON file to '__objects' if JSON __file_path exists
-        if the file doesn't exist, do nothing and no exception should be raised """
+        """ deserializes the JSON file to '__objects' if JSON __file_path
+        exists if the file doesn't exist, do nothing and no exception
+        should be raised """
         try:
             with open(self.__file_path, 'r') as file:
                 obj = json.load(file)
