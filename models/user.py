@@ -10,11 +10,16 @@ from models.base_model import BaseModel
 class User(BaseModel):
     """ the user class that also inherits from BaseModel
     and stores the information of users """
+    email = ''
+    password = ''
+    first_name = ''
+    last_name = ''
+
     def __init__(self, email='', password='', first_name='',
                  last_name='', *args, **kwargs):
         """ initializes the user attributes """
         super().__init__(*args, **kwargs)
-        self.email = email
-        self.password = password
-        self.first_name = first_name
-        self.last_name = last_name
+        self.email = str(email)
+        self.password = str(password)
+        self.first_name = str(first_name)
+        self.last_name = str(last_name)
