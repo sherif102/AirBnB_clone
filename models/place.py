@@ -40,4 +40,4 @@ class Place(BaseModel):
         self.price_by_night = int(price_by_night)
         self.latitude = float(latitude)
         self.longitude = float(longitude)
-        self.amenity_ids.extend(amenity_ids)
+        self.amenity_ids = [(Amenity().id)]

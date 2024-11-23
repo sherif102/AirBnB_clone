@@ -57,8 +57,7 @@ class HBNBCommand(cmd.Cmd):
 
         for x in obj_dict.keys():
             y = obj_dict[x]
-            if y.__class__.__name__ == args[0]:
-                ids.append(y.id)
+            ids.append(y.id)
 
         if not arg:
             print("** class name missing **")
@@ -83,8 +82,7 @@ class HBNBCommand(cmd.Cmd):
 
         for x in obj_dict.keys():
             y = obj_dict[x]
-            if y.__class__.__name__ == args[0]:
-                ids.append(y.id)
+            ids.append(y.id)
 
         if not arg:
             print("** class name missing **")
