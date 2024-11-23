@@ -7,13 +7,18 @@ Author: Sheriff Abdulfatai
 import cmd
 from models.base_model import BaseModel
 from models.user import User
+from models.place import Place
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
 from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
     """ the commanded interpreter for this project """
     prompt = '(hbnb) '
-    classes = ["BaseModel", "User"]
+    classes = ["BaseModel", "User", "Place", "State", "City", "Amenity", "Review"]
 
     def emptyline(self):
         pass
@@ -138,7 +143,6 @@ class HBNBCommand(cmd.Cmd):
             obj = obj_dict.get(f"{args[0]}.{args[1]}")
             setattr(obj, args[2], type(f'{obj}.{args[2]}')(args[3]))
             obj.save()
-
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

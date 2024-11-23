@@ -8,7 +8,7 @@ from models.base_model import BaseModel
 
 
 class User(BaseModel):
-    """ the user class that also inherits from BaseModel
+    """ the user class that inherits from BaseModel
     and stores the information of users """
     email = ''
     password = ''
