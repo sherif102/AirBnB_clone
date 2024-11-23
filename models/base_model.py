@@ -50,7 +50,7 @@ class BaseModel:
     def to_dict(self):
         """ it generates the dictionary of all the keys/values
         of __dict__ of the instance """
-        dico = {"__class__": "BaseModel"}
+        dico = {"__class__": f"{self.__class__.__name__}"}
         for x in self.__dict__:
             if x[0] == '_':
                 continue

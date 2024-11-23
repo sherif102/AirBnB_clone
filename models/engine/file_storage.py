@@ -6,6 +6,7 @@ Author: Sheriff Abdulfatai
 
 import json
 from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -42,7 +43,7 @@ class FileStorage:
                 obj = json.load(file)
                 obj_dict = {}
                 for x, y in obj.items():
-                    new_obj = BaseModel(**y)
+                    new_obj = eval(y.get("__class__"))(**y)
                     obj_dict[x] = new_obj
                 self.__objects.update(obj_dict)
         except FileNotFoundError:

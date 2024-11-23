@@ -1,22 +1,19 @@
 #!/usr/bin/python3
+from models import storage
+from models.base_model import BaseModel
+from models.user import User
 
+all_objs = storage.all()
+print("-- Reloaded objects --")
+for obj_id in all_objs.keys():
+    obj = all_objs[obj_id]
+    print(obj)
 
-names = {"name": "sheriff", "age": 24, "indigen": True}
-for x in names.values():
-    print(type(x))
-
-
-value = 63
-print(value)
-print(str(value))
-print()
-print(type(value))
-values = str(value)
-
-print(type(values))
-print(values)
-new = 21
-news = type(values)(new)
-print()
-print(type(new))
-print(type(news))
+print("-- Create a new User --")
+my_user = User()
+my_user.first_name = "Betty"
+my_user.last_name = "Bar"
+my_user.email = "airbnb@mail.com"
+my_user.password = "root"
+my_user.save()
+print(my_user)

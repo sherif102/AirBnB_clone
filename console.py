@@ -6,12 +6,14 @@ Author: Sheriff Abdulfatai
 
 import cmd
 from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
 
 class HBNBCommand(cmd.Cmd):
     """ the commanded interpreter for this project """
     prompt = '(hbnb) '
+    classes = ["BaseModel", "User"]
 
     def emptyline(self):
         pass
@@ -30,10 +32,10 @@ class HBNBCommand(cmd.Cmd):
         Eg: $ create BaseModel """
         if not arg:
             print("** class name missing **")
-        elif arg != "BaseModel":
+        elif arg not in self.classes:
             print("** class doesn't exist **")
         else:
-            obj = BaseModel()
+            obj = eval(arg)()
             storage.new(obj)
             storage.save()
             print(obj.id)
@@ -54,14 +56,14 @@ class HBNBCommand(cmd.Cmd):
 
         if not arg:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
         elif args[1] not in ids:
             print("** no instance found **")
         else:
-            print(obj_dict.get(f"BaseModel.{args[1]}"))
+            print(obj_dict.get(f"{args[0]}.{args[1]}"))
 
     def do_destroy(self, arg):
         """ deletes an instance based on teh class name
@@ -79,28 +81,31 @@ class HBNBCommand(cmd.Cmd):
 
         if not arg:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
         elif args[1] not in ids:
             print("** no instance found **")
         else:
-            del obj_dict[f"BaseModel.{args[1]}"]
+            del obj_dict[f"{args[0]}.{args[1]}"]
             storage.save()
 
     def do_all(self, arg):
         """ prints all string representation of all
         instances based or not on the class name
         Eg: $ all BaseModel or $ all """
-        if arg and arg != "BaseModel":
+        if arg and arg not in self.classes:
             print("** class doesn't exist **")
         else:
             list_obj = []
             storage.reload()
             obj_dict = storage.all()
             for y in obj_dict.values():
-                list_obj.append(str(y))
+                if arg and str(y.__class__.__name__) == str(arg):
+                    list_obj.append(str(y))
+                if not arg:
+                    list_obj.append(str(y))
             print(list_obj)
 
     def do_update(self, arg):
@@ -119,7 +124,7 @@ class HBNBCommand(cmd.Cmd):
 
         if not arg:
             print("** class name missing **")
-        elif args[0] != "BaseModel":
+        elif args[0] not in self.classes:
             print("** class doesn't exist **")
         elif len(args) < 2:
             print("** instance id missing **")
@@ -130,7 +135,7 @@ class HBNBCommand(cmd.Cmd):
         elif len(args) < 4:
             print("** value missing **")
         else:
-            obj = obj_dict.get(f"BaseModel.{args[1]}")
+            obj = obj_dict.get(f"{args[0]}.{args[1]}")
             setattr(obj, args[2], type(f'{obj}.{args[2]}')(args[3]))
             obj.save()
 
