@@ -72,13 +72,13 @@ def exec_command(my_console, the_command, last_lines = 1):
 """
  Tests
 """
-result = exec_command(my_console, "create Place")
+result = exec_command(my_console, "create User")
 if result is None or result == "":
     print("FAIL: No ID retrieved")
     
 model_id = result
 
-result = exec_command(my_console, "show State {}".format(model_id))
+result = exec_command(my_console, "show Place {}".format(model_id))
 if result is None or result == "":
     print("FAIL: no output")
     

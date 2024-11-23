@@ -5,8 +5,6 @@ Author: Sheriff Abdulfatai
 """
 
 from models.base_model import BaseModel
-from models.place import Place
-from models.user import User
 
 
 class Review(BaseModel):
@@ -16,9 +14,9 @@ class Review(BaseModel):
     user_id = ''
     text = ''
 
-    def __init__(self, text='', *args, **kwargs):
+    def __init__(self, place_id='', user_id='', text='', *args, **kwargs):
         """ initializes the review class """
         super().__init__(*args, **kwargs)
-        self.place_id = str(Place().id)
-        self.user_id = str(User().id)
+        self.place_id = place_id
+        self.user_id = user_id
         self.text = str(text)

@@ -12,7 +12,7 @@ class State(BaseModel):
     and stores the information of User's State """
     name = ''
 
-    def __init__(self, state='', *args, **kwargs):
+    def __init__(self, name='', *args, **kwargs):
         """ initializes the state class """
         super().__init__(*args, **kwargs)
-        self.state = str(state)
+        self.name = str(name)
