@@ -160,7 +160,10 @@ class HBNBCommand(cmd.Cmd):
                 for x in obj_lists:
                     if x.__class__.__name__ == value.strip():
                         count += 1
-                print(count)
+                if count > 0:
+                    print(count)
+                else:
+                    print("** no instance found **")
                 return self.cmdloop()
             elif command[:4] == "show":
                 # run the command of show and return the object match
