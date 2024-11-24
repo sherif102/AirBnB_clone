@@ -19,6 +19,7 @@ class HBNBCommand(cmd.Cmd):
     """ the commanded interpreter for this project """
     prompt = '(hbnb) '
     classes = ["BaseModel", "User", "Place", "State", "City", "Amenity", "Review"]
+    methods = ["help", "?", "!", "quit", "EOF", "create", "show", "destroy", "update", "all"]
 
     def emptyline(self):
         pass
@@ -145,6 +146,46 @@ class HBNBCommand(cmd.Cmd):
             obj = obj_dict.get(f"{args[0]}.{args[1]}")
             setattr(obj, args[2], type(f'{obj}.{args[2]}')(args[3]))
             obj.save()
+
+
+    def parseline(self, arg):
+        """ defines a custome command input """
+        value, sep, command = arg.partition('.')
+        if (value.strip() not in self.methods) and '.' in arg:
+            if command[:-2] == "count":
+                # run  the command of count and return the number of class-name available
+                count = 0
+                all_objects = storage.all()
+                obj_lists = list(all_objects.values())
+                for x in obj_lists:
+                    if x.__class__.__name__ == value.strip():
+                        count += 1
+                print(count)
+                return self.cmdloop()
+            elif command[:4] == "show":
+                # run the command of show and return the object match
+                try:
+                    return command[:4], f'{value.strip()} {command[6:-2]}', arg
+                except:
+                    print("** no instance found **")
+                    return self.cmdloop()
+            elif command[:7] == "destroy":
+                # run the command of destroy and update the file
+                try:
+                    return command[:7], f'{value.strip()} {command[9:-2]}', arg
+                except:
+                    print("** no instance found **")
+                    return self.cmdloop()
+            elif command[:6] == "update":
+                # run the command of update and update the file
+                update_values = command.split(' ')
+                print(update_values)
+                return self.cmdloop()
+
+            
+            return command[:-2].strip(), value.strip(), arg
+        return super().parseline(arg)
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
