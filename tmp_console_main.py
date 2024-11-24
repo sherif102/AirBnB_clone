@@ -152,19 +152,16 @@ class HBNBCommand(cmd.Cmd):
         """ defines a custome command input """
         value, sep, command = arg.partition('.')
         if (value.strip() not in self.methods) and '.' in arg:
-            if command[:-2] == "all":
-                # run the command of all
-                return command[:-2].strip(), value.strip(), arg
-            elif command[:-2] == "count":
+            if command[:-2] == "count":
                 # run  the command of count and return the number of class-name available
                 count = 0
                 all_objects = storage.all()
-                for obj in all_objects.values():
-                    if obj.__class__.__name__ == value.strip():
+                obj_lists = list(all_objects.values())
+                for x in obj_lists:
+                    if x.__class__.__name__ == value.strip():
                         count += 1
                 print(count)
-                # return self.cmdloop()
-                return super().parseline('')
+                return self.cmdloop()
             elif command[:4] == "show":
                 # run the command of show and return the object match
                 try:
@@ -185,6 +182,8 @@ class HBNBCommand(cmd.Cmd):
                 print(update_values)
                 return self.cmdloop()
 
+            
+            return command[:-2].strip(), value.strip(), arg
         return super().parseline(arg)
 
 if __name__ == "__main__":
