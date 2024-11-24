@@ -18,8 +18,10 @@ from models import storage
 class HBNBCommand(cmd.Cmd):
     """ the commanded interpreter for this project """
     prompt = '(hbnb) '
-    classes = ["BaseModel", "User", "Place", "State", "City", "Amenity", "Review"]
-    methods = ["help", "?", "!", "quit", "EOF", "create", "show", "destroy", "update", "all"]
+    classes = ["BaseModel", "User", "Place", "State", "City", "Amenity",
+               "Review"]
+    methods = ["help", "?", "!", "quit", "EOF", "create", "show", "destroy",
+               "update", "all"]
 
     def emptyline(self):
         pass
@@ -147,7 +149,6 @@ class HBNBCommand(cmd.Cmd):
             setattr(obj, args[2], type(f'{obj}.{args[2]}')(args[3]))
             obj.save()
 
-
     def parseline(self, arg):
         """ defines a custome command input """
         value, sep, command = arg.partition('.')
@@ -156,36 +157,60 @@ class HBNBCommand(cmd.Cmd):
                 # run the command of all
                 return command[:-2].strip(), value.strip(), arg
             elif command[:-2] == "count":
-                # run  the command of count and return the number of class-name available
+                # run  the command of count and return the number of
+                # class-name available
                 count = 0
                 all_objects = storage.all()
                 for obj in all_objects.values():
                     if obj.__class__.__name__ == value.strip():
                         count += 1
                 print(count)
-                # return self.cmdloop()
                 return super().parseline('')
             elif command[:4] == "show":
                 # run the command of show and return the object match
                 try:
                     return command[:4], f'{value.strip()} {command[6:-2]}', arg
-                except:
+                except Exception:
                     print("** no instance found **")
                     return self.cmdloop()
             elif command[:7] == "destroy":
                 # run the command of destroy and update the file
                 try:
                     return command[:7], f'{value.strip()} {command[9:-2]}', arg
-                except:
+                except Exception:
                     print("** no instance found **")
                     return self.cmdloop()
             elif command[:6] == "update":
                 # run the command of update and update the file
-                update_values = command.split(' ')
-                print(update_values)
-                return self.cmdloop()
+                if '{' in command:
+                    # update from dictionary
+                    front = command.index('{')
+                    back = command.rindex('}') + 1
+                    args = []
+                    dic = eval(command[front:back])
+                    for key, values in dic.items():
+                        args.append(f'{command[:6]} {value.strip()}\
+                                    {command[8:44]} {key} {values}')
+                    self.cmdqueue.extend(args)
+                    return super().parseline('')
+                else:
+                    # update one by one
+                    update_values = command.split('"')
+                    id = update_values[1]
+                    attr = update_values[3]
+                    if len(update_values) > 6:
+                        result = update_values[5]
+                    else:
+                        result = update_values[4][2:-1]
+                    try:
+                        return command[:6], f'{value.strip()} {id} {attr}\
+                            {result}', arg
+                    except Exception:
+                        print("** no instance found **")
+                        return self.cmdloop()
 
         return super().parseline(arg)
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()

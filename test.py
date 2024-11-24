@@ -2,14 +2,27 @@
 from models import storage
 from models.base_model import BaseModel
 
-count = 0
-value = "City"
+dic = {"name": "sheriff", "age": 24, "school": "UNILORIN"}
 
 all_objects = storage.all()
 obj_lists = list(all_objects.values())
-for x in obj_lists:
-    if x.__class__.__name__ == value:
-        count += 1
-    print(x.__class__.__name__)
+value = obj_lists[0]
 
-print(f'The number of {value}:- {count}')
+x = """update("}38f22813-2753-4d42-b37c-57a17f1e4f88", {'first_name': "John", "age": 89})"""
+
+# x = 'update("38f22813-2753-4d42-b37c-57a17f1e4f88", "age", "89")'
+front = x.index('{')
+back = x.rindex('}') + 1
+print(front)
+print(back)
+value = x[front:back]
+print(value)
+print(type(eval(value)))
+print(x[9:45])
+# print(x)
+# print(len(y))
+# print()
+# print("####")
+# for x in y:
+#     print(x)
+# print(type(dic) == dict)
