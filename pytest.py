@@ -78,12 +78,11 @@ if result is None or result == "":
     
 
 result = exec_command(my_console, "BaseModel.count()")
-print(result)
-# if result is None or result == "":
-#     print("FAIL: no output")
+if result is None or result == "":
+    print("FAIL: no output")
     
-# if int(result) == 0:
-#     print("FAIL: count should not be 0")
+if int(result) == 0:
+    print("FAIL: count should not be 0")
     
 print("OK", end="")
 
