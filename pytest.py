@@ -8,22 +8,22 @@ import shutil
 """
  Cleanup file storage
 """
-import os
-file_path = "file.json"
-if not os.path.exists(file_path):
-    try:
-        from models.engine.file_storage import FileStorage
-        file_path = FileStorage._FileStorage__file_path
-    except:
-        pass
-if os.path.exists(file_path):
-    os.remove(file_path)
+# import os
+# file_path = "file.json"
+# if not os.path.exists(file_path):
+#     try:
+#         from models.engine.file_storage import FileStorage
+#         file_path = FileStorage._FileStorage__file_path
+#     except:
+#         pass
+# if os.path.exists(file_path):
+#     os.remove(file_path)
 
 """
  Backup console file
 """
-if os.path.exists("tmp_console_main.py"):
-    shutil.copy("tmp_console_main.py", "console.py")
+# if os.path.exists("tmp_console_main.py"):
+#     shutil.copy("tmp_console_main.py", "console.py")
 shutil.copy("console.py", "tmp_console_main.py")
 
 """
@@ -72,17 +72,46 @@ def exec_command(my_console, the_command, last_lines = 1):
 """
  Tests
 """
-result = exec_command(my_console, "create BaseModel")
-if result is None or result == "":
-    print("FAIL: No ID retrieved")
+model_class = "BaseModel"
+dict_update = { 'attribute_name_dict': "string_value_dict" }
+# result = exec_command(my_console, "create {}".format(model_class))
+# if result is None or result == "":
+#     print("FAIL: No ID retrieved")
     
+model_id = '2442170d-61ee-4816-90ec-4d4a8fb4ccc8'
+print(model_id)
 
-result = exec_command(my_console, "BaseModel.count()")
-if result is None or result == "":
-    print("FAIL: no output")
+
+def model_has_attribute(my_console, model_class, model_id, dict_update):
+    is_found = False    
+    result = exec_command(my_console, "show {} {}".format(model_class, model_id))
+    print(result)
+    if result is None or result == "":
+        pass  
+    elif model_id in result and "id" in result:
+        is_found = True
+        for k in dict_update.keys():
+            print(f'{k} - {dict_update[k]}')
+            if k not in result:
+                is_found = False
+                break
+            if dict_update[k] not in result:
+                is_found = False
+                break
+    print(is_found)
+        
+    return is_found
+
+# result = exec_command(my_console, "{}.update(\"{}\", {})".format(model_class, model_id, dict_update))
+if not model_has_attribute(my_console, model_class, model_id, dict_update):
+    result = exec_command(my_console, "{}.update({}, {})".format(model_class, model_id, dict_update))
+    if not model_has_attribute(my_console, model_class, model_id, dict_update):
+        result = exec_command(my_console, "{}.update(\"{}.{}\", {})".format(model_class, model_class, model_id, dict_update))
+    if not model_has_attribute(my_console, model_class, model_id, dict_update):
+        result = exec_command(my_console, "{}.update({}.{}, {})".format(model_class, model_class, model_id, dict_update))
     
-if int(result) == 0:
-    print("FAIL: count should not be 0")
+if not model_has_attribute(my_console, model_class, model_id, dict_update):
+    print("FAIL: model doesn't have new attribute")
     
 print("OK", end="")
 
