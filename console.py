@@ -189,7 +189,7 @@ class HBNBCommand(cmd.Cmd):
                     args = []
                     dic = eval(command[front:back])
                     for key, values in dic.items():
-                        args.append(f'{command[:6]} {value.strip()} '\
+                        args.append(f'{command[:6]} {value.strip()} '
                                     f'{command[8:44]} {key} {values}')
                     self.cmdqueue = args
                     return super().parseline('')
