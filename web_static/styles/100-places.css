@@ -1,0 +1,68 @@
+.places .amenities {
+    margin: 40px 0 0 0;
+    width: 100%;
+}
+.places .amenities h2 {
+    font-size: 16px;
+    border-bottom: 1px solid #DDDDDD;
+    margin: 0; padding: 5px 0;
+    width: 100%;
+    text-align: left;
+    
+}
+.places .amenities ul {
+    list-style-type: none;
+    margin: 0; padding: 0;
+}
+.places .amenities li {
+    margin: 0;
+    background-size: 20px;
+}
+.places .amenities li div {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 2px 10px 2px 0;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+.places .amenities li .tv {
+    background-image: url(../images/TV.png);
+}
+.places .amenities li .wifi {
+    background-image: url(../images/wifi.png);
+}
+.places .amenities li .pet {
+    background-image: url(../images/pet.png);
+}
+.places .amenities li .road {
+    background-image: url(../images/road.png);
+}
+
+.places .reviews {
+    margin: 40px 0 0 0;
+    padding: 0;
+    text-align: left;
+}
+.places .reviews h2 {
+    font-size: 16px;
+    border-bottom: 1px solid #DDDDDD;
+    margin: 4px 0;
+    padding: 5px 0;
+    text-align: left;
+}
+.places .reviews ul {
+    list-style-type: none;
+    margin: 8px 0; padding: 0;
+}
+
+.places .reviews ul h3 {
+    margin: 2px 0;
+    font-size: 14px;
+}
+.places .reviews ul p {
+    margin: 0;
+    font-size: 12px;
+}
